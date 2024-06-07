@@ -1,0 +1,76 @@
+# Build Folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Visual Studio
+.vs/
+
+# Rider
+.idea/
+
+# Logs
+*.log
+
+# Database files
+*.mdf
+*.ldf
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Node modules
+node_modules/
+
+# Npm package log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Secrets and Configuration
+*.secrets.json
+.env
+
+# Generated files
+*.g.cs
+
+# Mac files
+.DS_Store
+
+# JetBrains Rider files
+.idea/
+
+# JetBrains Rider DotSettings files
+*.DotSettings.user
+
+# Entity Framework Migrations
+Migrations/
+
+# SQL Server database files
+*.mdf
+*.ldf
+
+# Azure Pipelines
+AzurePipelines/AzurePipelines.log
