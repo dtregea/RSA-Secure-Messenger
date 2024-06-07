@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Home";
+    var privateKey = ViewData["PrivateKey"] as string;
+    var username = Context.Session.GetString("Username");
+    var messages = ViewData["Messages"] as List<SecureMessenger.Models.Message>;
+    var currentPage = ViewData["CurrentPage"] as int? ?? 1;
+    var totalPages = ViewData["TotalPages"] as int? ?? 1;
+}
+
+<h2>@username's Dashboard</h2>
+
+@if (!string.IsNullOrEmpty(ViewData["SignUpSuccess"] as string))
+{
+    <div class="alert alert-success">
+        <p>@ViewData["SignUpSuccess"]</p>
+        <p style="overflow-wrap: anywhere;"><strong>Private Key:</strong> @privateKey</p>
+        <p>Please copy and save this private key. <strong>It will not be shown again.</strong></p>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <h3>Get Messages</h3>
+        <form asp-action="DecodeMessages" method="post">
+            <div class="form-group">
+                <label for="privateKey">Enter Private Key to Decode Messages</label>
+                <input type="text" name="privateKey" id="privateKey" class="form-control" required />
+            </div>
+            <input type="hidden" name="page" value="@currentPage" />
+            <div class="form-group">
+                <input type="submit" value="Decode Messages" class="btn btn-primary" />
+            </div>
+        </form>
+
+        @if (messages != null && messages.Any())
+        {
+            <div>
+                <h4>Messages</h4>
+                <ul>
+                    @foreach (var message in messages)
+                    {
+                        
+                        <li style="overflow-wrap: anywhere;">
+                            <p><strong>@message.Sender.Username, @message.CreatedAt.ToString("g") (UTC)</strong></p>
+                            <p>@message.Content</p>
+                        </li>
+
+                    }
+                </ul>
+
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        @for (int i = 1; i <= totalPages; i++)
+                        {
+                            <li class="page-item @(i == currentPage ? "active" : "")">
+                                <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            </div>
+        }
+        else if (messages != null)
+        {
+            <p>You have no messages.</p>
+        }
+
+        @if (!string.IsNullOrEmpty(ViewData["GetMessageError"] as string))
+        {
+            <div class="alert alert-danger">
+                <p>@ViewData["GetMessageError"]</p>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(ViewData["GetMessageSuccess"] as string))
+        {
+            <div class="alert alert-success">
+                <p>@ViewData["GetMessageSuccess"]</p>
+            </div>
+        }
+    </div>
+
+    <div class="col-md-6">
+        <h3>Send a Message</h3>
+        <form asp-action="SendMessage" method="post">
+            <div class="form-group">
+                <label for="recipientUsername">Recipient Username</label>
+                <input type="text" name="recipientUsername" id="recipientUsername" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="messageContent">Message</label>
+                <textarea name="messageContent" id="messageContent" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Send Message" class="btn btn-primary" />
+            </div>
+        </form>
+
+        @if (!string.IsNullOrEmpty(ViewData["SendMessageError"] as string))
+        {
+            <div class="alert alert-danger">
+                <p>@ViewData["SendMessageError"]</p>
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(ViewData["SendMessageSuccess"] as string))
+        {
+            <div class="alert alert-success">
+                <p>@ViewData["SendMessageSuccess"]</p>
+            </div>
+        }
+    </div>
+</div>
